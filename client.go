@@ -124,6 +124,33 @@ func (mb *client) ReadHoldingRegisters(address, quantity uint16) (results []byte
 }
 
 // Request:
+//  Function code         : 1 byte (0x42)
+//  Starting address      : 2 bytes
+//  Quantity of registers : 2 bytes
+// Response:
+//  Function code         : 1 byte (0x42)
+//  Byte count            : 1 byte
+//  Register value        : Nx2 bytes
+func (mb *client) ReadOilRecord(address, quantity uint16) (results []byte, err error) {
+	request := ProtocolDataUnit{
+		FunctionCode: FuncCodeReadOilRecord,
+		Data:         dataBlock(address, quantity),
+	}
+	response, err := mb.send(&request)
+	if err != nil {
+		return
+	}
+	count := int(response.Data[0])
+	length := len(response.Data) - 1
+	if count != length {
+		err = fmt.Errorf("modbus: response data size '%v' does not match count '%v'", length, count)
+		return
+	}
+	results = response.Data[1:]
+	return
+}
+
+// Request:
 //  Function code         : 1 byte (0x04)
 //  Starting address      : 2 bytes
 //  Quantity of registers : 2 bytes

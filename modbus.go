@@ -26,6 +26,7 @@ const (
 	FuncCodeReadWriteMultipleRegisters = 23
 	FuncCodeMaskWriteRegister          = 22
 	FuncCodeReadFIFOQueue              = 24
+	FuncCodeReadOilRecord              = 66
 )
 
 const (

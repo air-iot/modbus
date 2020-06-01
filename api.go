@@ -46,4 +46,6 @@ type Client interface {
 	//ReadFIFOQueue reads the contents of a First-In-First-Out (FIFO) queue
 	// of register in a remote device and returns FIFO value register.
 	ReadFIFOQueue(address uint16) (results []byte, err error)
+	// 获取发油记录
+	ReadOilRecord(address, quantity uint16) (results []byte, err error)
 }

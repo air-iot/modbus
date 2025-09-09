@@ -179,6 +179,7 @@ func (mb *tcpServerTransporter) Send(aduRequest []byte) (aduResponse []byte, err
 	}
 	// Read length, ignore transaction & protocol id (4 bytes)
 	length := int(binary.BigEndian.Uint16(data[4:]))
+	mb.logf("modbus: receivedheader % x\n", data)
 	if length <= 0 {
 		mb.flush(data[:])
 		err = fmt.Errorf("modbus: length in response header '%v' must not be zero", length)
